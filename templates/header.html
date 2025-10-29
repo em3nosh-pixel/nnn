@@ -1,0 +1,173 @@
+<header>
+  <style>
+    header {
+      background: linear-gradient(90deg, #081123, #0b1b33);
+      color: #fff;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #ff8c00;
+      text-shadow: 0 0 8px rgba(255, 140, 0, 0.5);
+      flex: 1;
+    }
+
+    .search-bar {
+      flex: 2;
+      display: flex;
+      justify-content: center;
+      position: relative;
+    }
+
+    .search-bar input {
+      width: 80%;
+      padding: 10px 40px 10px 15px;
+      border-radius: 25px;
+      border: none;
+      outline: none;
+      font-size: 15px;
+      background-color: #101d3a;
+      color: #eee;
+      border: 2px solid #ff8c00;
+      transition: all 0.3s;
+    }
+
+    .search-bar input:focus {
+      box-shadow: 0 0 10px rgba(255, 140, 0, 0.4);
+    }
+
+    .search-bar button {
+      position: absolute;
+      right: 10%;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #ff8c00;
+      font-size: 20px;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .search-bar button:hover {
+      color: #ffaa33;
+    }
+
+    nav {
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    nav a {
+      color: #ddd;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #ff8c00;
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #ff8c00;
+    }
+
+    @media (max-width: 900px) {
+      .search-bar input {
+        width: 100%;
+      }
+
+      nav {
+        display: none;
+        flex-direction: column;
+        background: #0b1b33;
+        position: absolute;
+        top: 70px;
+        right: 0;
+        width: 200px;
+        padding: 10px;
+        border-left: 2px solid #ff8c00;
+      }
+
+      nav.active {
+        display: flex;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .search-bar {
+        order: 3;
+        width: 100%;
+        margin-top: 10px;
+      }
+
+      .search-bar input {
+        width: 90%;
+      }
+
+      .search-bar button {
+        right: 8%;
+      }
+    }
+  </style>
+
+  <div class="logo">📘 مكتبة النخبة</div>
+
+  <div class="search-bar">
+    <input type="text" placeholder="ابحث عن كتاب..." id="searchInput">
+    <button onclick="searchBook()">🔍</button>
+  </div>
+
+  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+  <nav id="nav-menu">
+    <a href="#">الرئيسية</a>
+    <a href="#">الكتب</a>
+    <a href="#">الأقسام</a>
+    <a href="#">تواصل معنا</a>
+
+    {% if user.is_authenticated %}
+        <a href="#">👋 {{ user.username }}</a>
+        <a href="{% url 'logout' %}">تسجيل خروج</a>
+    {% else %}
+        <a href="{% url 'register' %}">إنشاء حساب</a>
+        <a href="{% url 'login' %}">تسجيل الدخول</a>
+    {% endif %}
+  </nav>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("nav-menu").classList.toggle("active");
+    }
+
+    function searchBook() {
+      const query = document.getElementById("searchInput").value.trim();
+      if (query) {
+        alert(`🔍 جاري البحث عن: "${query}"`);
+      } else {
+        alert("من فضلك أدخل اسم الكتاب للبحث 📚");
+      }
+    }
+  </script>
+
+</header>
