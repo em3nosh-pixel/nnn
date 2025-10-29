@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>تواصل معنا | مكتبة النخبة</title>
+<style>
+    body {
+        font-family: "Cairo", sans-serif;
+        background: #0a1224;
+        color: #eee;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+    }
+
+    .contact-container {
+        max-width: 700px;
+        margin: 100px auto;
+        padding: 30px;
+        border-radius: 15px;
+        background: rgba(255,255,255,0.05);
+        backdrop-filter: blur(5px);
+        box-shadow: 0 0 25px rgba(255,165,0,0.3);
+    }
+
+    h2 {
+        font-size: 35px;
+        color: #ff9900;
+        margin-bottom: 15px;
+    }
+
+    .item {
+        background: #111a33;
+        margin: 12px 0;
+        padding: 15px 20px;
+        border-radius: 10px;
+        font-size: 20px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    .item span {
+        color: #00d8ff;
+        font-size: 25px;
+        margin-left: 10px;
+    }
+
+    .back-btn {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 12px 20px;
+        border-radius: 50px;
+        background: #ff9900;
+        color: #111;
+        text-decoration: none;
+        font-weight: bold;
+    }
+</style>
+</head>
+<body>
+
+<div class="contact-container">
+    <h2>💬 تواصل معنا</h2>
+
+    <div class="item">
+        <span>📞</span>خدمة العملاء: 920000111
+    </div>
+
+    <div class="item">
+        <span>📱</span>الدعم الفني: 0550000000
+    </div>
+
+    <div class="item">
+        <span>📧</span>البريد: support@nukhba.com
+    </div>
+
+    <div class="item">
+        <span>📍</span>الموقع: الرياض - المملكة العربية السعودية
+    </div>
+
+    <a href="{% url 'store_home' %}" class="back-btn">العودة للرئيسية</a>
+</div>
+
+</body>
+</html>

@@ -1,24 +1,18 @@
 from django.contrib import admin
 from django.urls import path, include
-from django.conf import settings
-from django.conf.urls.static import static
+from store import views  # ✅ مهم جداً
 
 urlpatterns = [
-    # ✅ لوحة تحكم المدير
+    # لوحة التحكم
     path('admin/', admin.site.urls),
 
-    # ✅ روابط التطبيقات
-    path('accounts/', include('accounts.urls')),  # مستخدمين
-    path('store/', include('store.urls')),        # المتجر
-    path('orders/', include('orders.urls')),      # الطلبات
+    # صفحة تواصل معنا
+    path('contact/', views.contact, name='contact'),
 
-    # ✅ الصفحة الرئيسية توجّه تلقائيًا للمتجر
+    # المتجر + الصفحة الرئيسية
     path('', include('store.urls')),
+
+    # حسابات المستخدمين
+    path('accounts/', include('accounts.urls')),
+    path('orders/', include('orders.urls')),
 ]
-
-# ✅ إعدادات عرض الملفات أثناء التطوير فقط
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-

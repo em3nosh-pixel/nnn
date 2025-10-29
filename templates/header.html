@@ -140,7 +140,7 @@
     <a href="{% url 'store_home' %}">الرئيسية</a>
     <a href="{% url 'products_list' %}">الكتب</a>
     <a href="#">الأقسام</a>
-    <a href="#">تواصل معنا</a>
+    <a href="{% url 'contact' %}">تواصل معنا</a>
 
     {% if user.is_authenticated %}
         <a href="{% url 'profile' %}">👋 {{ user.username }}</a>
