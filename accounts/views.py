@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 
-# ✅ إنشاء حساب جديد
+# ✅ إنشاء حساب جديد + توجيه لصفحة إكمال البيانات
 def register_view(request):
     if request.method == "POST":
         username = request.POST.get("username")
@@ -15,9 +15,14 @@ def register_view(request):
             messages.error(request, "⚠ اسم المستخدم موجود مسبقًا")
             return redirect("register")
 
+        # ✅ إنشاء المستخدم
         user = User.objects.create_user(username=username, password=password)
-        messages.success(request, "✅ تم إنشاء الحساب بنجاح! يمكنك الآن تسجيل الدخول")
-        return redirect("login")
+
+        # ✅ تسجيل دخول مباشر بعد إنشاء الحساب
+        login(request, user)
+
+        # ✅ الانتقال لصفحة إدخال الجوال والعنوان
+        return redirect("complete_profile")
 
     return render(request, "accounts_t/register.html")
 
@@ -43,7 +48,36 @@ def login_view(request):
 
 
 
-# ✅ صفحة لوحة المستخدم (اختياري - سنستخدمها لاحقًا)
+# ✅ إكمال بيانات المستخدم
+@login_required(login_url='login')
+def complete_profile_view(request):
+    if request.method == "POST":
+        phone = request.POST.get("phone")
+        address = request.POST.get("address")
+
+        # ✅ حفظ البيانات داخل Profile
+        request.user.profile.phone = phone
+        request.user.profile.address = address
+        request.user.profile.save()
+
+        messages.success(request, "✅ تم حفظ البيانات بنجاح ✅")
+
+        # ✅ نقل المستخدم للصفحة الرئيسية
+        return redirect("store_home")
+
+    return render(request, "accounts_t/complete_profile.html")
+
+
+
+# ✅ صفحة البروفايل
 @login_required(login_url='login')
 def profile_view(request):
     return render(request, "accounts_t/profile.html")
+
+
+
+# ✅ تسجيل الخروج
+def logout_view(request):
+    logout(request)
+    messages.success(request, "✅ تم تسجيل الخروج بنجاح")
+    return redirect("store_home")

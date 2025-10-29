@@ -1,6 +1,5 @@
 from django.urls import path
 from . import views
-from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     # ✅ إنشاء حساب
@@ -10,8 +9,10 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
 
     # ✅ تسجيل الخروج
-    path('logout/', LogoutView.as_view(next_page='store_home'), name='logout'),
+    path('logout/', views.logout_view, name='logout'),
 
+    # ✅ الملف الشخصي
     path('profile/', views.profile_view, name='profile'),
+    path('complete-profile/', views.complete_profile_view, name='complete_profile'),
 
 ]

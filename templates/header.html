@@ -83,6 +83,20 @@
       color: #ff8c00;
     }
 
+    .logout-btn {
+      background: #ff3600;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-weight: bold;
+      color: #fff !important;
+      box-shadow: 0 0 8px rgba(255, 54, 0, 0.4);
+    }
+
+    .logout-btn:hover {
+      background: #ff582c;
+      color: #fff !important;
+    }
+
     .menu-toggle {
       display: none;
       font-size: 24px;
@@ -91,10 +105,6 @@
     }
 
     @media (max-width: 900px) {
-      .search-bar input {
-        width: 100%;
-      }
-
       nav {
         display: none;
         flex-direction: column;
@@ -114,20 +124,6 @@
       .menu-toggle {
         display: block;
       }
-
-      .search-bar {
-        order: 3;
-        width: 100%;
-        margin-top: 10px;
-      }
-
-      .search-bar input {
-        width: 90%;
-      }
-
-      .search-bar button {
-        right: 8%;
-      }
     }
   </style>
 
@@ -141,14 +137,14 @@
   <div class="menu-toggle" onclick="toggleMenu()">☰</div>
 
   <nav id="nav-menu">
-    <a href="#">الرئيسية</a>
-    <a href="#">الكتب</a>
+    <a href="{% url 'store_home' %}">الرئيسية</a>
+    <a href="{% url 'products_list' %}">الكتب</a>
     <a href="#">الأقسام</a>
     <a href="#">تواصل معنا</a>
 
     {% if user.is_authenticated %}
-        <a href="#">👋 {{ user.username }}</a>
-        <a href="{% url 'logout' %}">تسجيل خروج</a>
+        <a href="{% url 'profile' %}">👋 {{ user.username }}</a>
+        <a href="{% url 'logout' %}" class="logout-btn">🚪 خروج</a>
     {% else %}
         <a href="{% url 'register' %}">إنشاء حساب</a>
         <a href="{% url 'login' %}">تسجيل الدخول</a>
@@ -162,11 +158,8 @@
 
     function searchBook() {
       const query = document.getElementById("searchInput").value.trim();
-      if (query) {
-        alert(`🔍 جاري البحث عن: "${query}"`);
-      } else {
-        alert("من فضلك أدخل اسم الكتاب للبحث 📚");
-      }
+      if (query) alert(`🔍 جاري البحث عن: "${query}"`);
+      else alert("من فضلك أدخل اسم الكتاب للبحث 📚");
     }
   </script>
 
