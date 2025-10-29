@@ -13,7 +13,7 @@ def products_list(request):
     return render(request, "store_t/products_list.html", {"products": products})
 
 
-# ✅ صفحة تفاصيل المنتج
-def product_detail(request, product_id):
+# ✅ صفحة تفاصيل المنتج (الصحيح)
+def product_detail_view(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     return render(request, "store_t/product_detail.html", {"product": product})

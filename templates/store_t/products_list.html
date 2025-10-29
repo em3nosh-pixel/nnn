@@ -17,10 +17,28 @@
             {% for product in products %}
             <div class="col-md-3 mb-4">
                 <div class="card bg-secondary text-light shadow h-100">
+
+                    <!-- ✅ عرض صورة المنتج -->
+                    {% if product.image %}
+                    <img src="{{ product.image.url }}" class="card-img-top" 
+                         style="height:200px; width:100%; object-fit:cover;">
+                    {% else %}
+                    <div class="bg-dark d-flex justify-content-center align-items-center"
+                         style="height:200px;">
+                        <span class="text-muted">لا توجد صورة</span>
+                    </div>
+                    {% endif %}
+
                     <div class="card-body text-center">
                         <h5 class="card-title text-warning">{{ product.name }}</h5>
-                        <p class="card-text" style="font-size:14px;">{{ product.description|truncatewords:10 }}</p>
-                        <p class="card-text fw-bold">💰 السعر: {{ product.price }} ريال</p>
+
+                        <p class="card-text" style="font-size:14px;">
+                            {{ product.description|truncatewords:10 }}
+                        </p>
+
+                        <p class="card-text fw-bold">
+                            💰 {{ product.price }} ريال
+                        </p>
 
                         <a href="{% url 'product_detail' product.id %}" class="btn btn-warning w-100">
                             تفاصيل المنتج 📄

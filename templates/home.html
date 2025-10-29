@@ -1,9 +1,10 @@
-<!-- templates/home.html -->
+{% load static %}
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <title>مكتبة النخبة | الرئيسية</title>
+
   <style>
     body {
       margin: 0;
@@ -12,27 +13,79 @@
       color: #eee;
     }
 
-    /* 🎨 القسم الرئيسي (Hero) */
+    /* ===== HERO SECTION WITH VIDEO ===== */
     .hero {
-      background: linear-gradient(135deg, #ffb347, #ff7e00); /* 🔸 تدرج ذهبي برتقالي أهدأ */
+      position: relative;
+      height: 85vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: translate(-50%, -50%) scale(1.05);
+      filter: brightness(0.4);
+      animation: zoomIn 6s infinite alternate ease-in-out;
+    }
+
+    @keyframes zoomIn {
+      0% { transform: translate(-50%, -50%) scale(1); }
+      100% { transform: translate(-50%, -50%) scale(1.08); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
       text-align: center;
-      padding: 120px 20px;
-      color: white;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      color: #fff;
+      animation: fadeSlide 1.8s ease-out forwards;
+      opacity: 0;
     }
 
-    .hero h1 {
-      font-size: 48px;
-      margin-bottom: 10px;
-      text-shadow: 0 0 10px rgba(0,0,0,0.3);
+    .hero-content h1 {
+      font-size: 52px;
+      margin-bottom: 15px;
+      text-shadow: 0 0 15px rgba(255, 150, 0, 0.8);
     }
 
-    .hero p {
-      font-size: 20px;
+    .hero-content p {
+      font-size: 22px;
+      margin-bottom: 25px;
       opacity: 0.95;
     }
 
-    /* 📚 قسم الكتب */
+    .hero-btn {
+      background-color: #ff8c00;
+      border: none;
+      padding: 13px 28px;
+      font-size: 20px;
+      border-radius: 50px;
+      color: #fff;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 0 15px rgba(255, 150, 0, 0.6);
+    }
+
+    .hero-btn:hover {
+      background-color: #ffaa33;
+      transform: translateY(-4px);
+      box-shadow: 0 0 20px rgba(255, 150, 0, 0.8);
+    }
+
+    /* Fade and slide animation */
+    @keyframes fadeSlide {
+      0% { opacity: 0; transform: translateY(25px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== BOOKS SECTION ===== */
     .books-section {
       padding: 60px 30px;
       text-align: center;
@@ -48,88 +101,31 @@
       text-shadow: 0 0 8px rgba(255, 180, 70, 0.4);
     }
 
-    .book-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 30px;
-    }
-
-    .book {
-      background: #101d3a;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-      padding: 20px;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .book:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 6px 20px rgba(255, 180, 70, 0.3);
-    }
-
-    .book img {
-      width: 100%;
-      border-radius: 10px;
-      border: 2px solid #ffb347;
-    }
-
-    .book h3 {
-      margin: 15px 0 8px;
-      color: #ffc466;
-    }
-
-    .book p {
-      color: #ccc;
-      font-size: 14px;
-    }
-
-    /* تحسين عرض الصفحة على الشاشات الصغيرة */
+    /* Responsive */
     @media (max-width: 768px) {
-      .hero {
-        padding: 80px 15px;
-      }
-
-      .hero h1 {
-        font-size: 36px;
-      }
-
-      .hero p {
-        font-size: 18px;
-      }
-
-      .books-section {
-        padding: 40px 15px;
-      }
+      .hero-content h1 { font-size: 34px; }
+      .hero-content p { font-size: 17px; }
     }
   </style>
 </head>
+
 <body>
 
   {% include 'header.html' %}
 
   <section class="hero">
-    <h1>مرحباً بكم في مكتبة النخبة</h1>
-    <p>اكتشف عالماً من المعرفة بين دفّات الكتب</p>
-  </section>
+    <video autoplay muted loop playsinline class="hero-video">
+      <source src="{% static 'videos/banner.mp4' %}" type="video/mp4">
+    </video>
 
-  <section class="books-section">
-    <h2>📚 أحدث الكتب</h2>
-    <div class="book-grid">
-      <div class="book">
-        <img src="https://via.placeholder.com/200x250/0b1b33/ffffff?text=كتاب+1" alt="كتاب 1">
-        <h3>فكر وتأمل</h3>
-        <p>رحلة عقلية في فلسفة الحياة والتفكير.</p>
-      </div>
-      <div class="book">
-        <img src="https://via.placeholder.com/200x250/0b1b33/ffffff?text=كتاب+2" alt="كتاب 2">
-        <h3>عبقرية القراءة</h3>
-        <p>قصص وتجارب من عالم عشاق الكتب.</p>
-      </div>
-      <div class="book">
-        <img src="https://via.placeholder.com/200x250/0b1b33/ffffff?text=كتاب+3" alt="كتاب 3">
-        <h3>رحلة الكاتب</h3>
-        <p>كيف تبدأ الكتابة وتكتشف صوتك الإبداعي.</p>
-      </div>
+    <div class="hero-content">
+      <h1>📚 مكتبة النخبة</h1>
+      <p>اكتشف عالماً من المعرفة والإبداع ✨</p>
+
+      <!-- ✅ زر CTA -->
+      <a href="/products/">
+        <button class="hero-btn">اكتشف الآن 🚀</button>
+      </a>
     </div>
   </section>
 
