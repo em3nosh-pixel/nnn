@@ -1,18 +1,24 @@
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
-from dotenv import load_dotenv
-import os
 
-# ✅ تحميل القيم من ملف البيئة .env
+# ✅ تحميل ملف البيئة أولاً
 load_dotenv()
+
+# ✅ إعداد Cloudinary (التهيئة المباشرة)
+cloudinary.config(
+    cloud_name=os.getenv('CLOUD_NAME'),
+    api_key=os.getenv('CLOUDINARY_API_KEY'),
+    api_secret=os.getenv('CLOUDINARY_API_SECRET')
+)
 
 # ========================
 # 📂 المسار الأساسي للمشروع
 # ========================
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # ========================
 # 🔐 المفتاح السري
@@ -24,7 +30,6 @@ SECRET_KEY = 'django-insecure-8=4%8acy%&ms#)r7z4%qv+(qcy^pvje@429eps%0c73+bco-y@
 # ========================
 DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
-
 
 # ========================
 # 🧩 التطبيقات المثبتة
@@ -48,7 +53,6 @@ INSTALLED_APPS = [
     'cloudinary_storage',
 ]
 
-
 # ========================
 # ⚙️ الوسائط الوسيطة
 # ========================
@@ -63,12 +67,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
 # ========================
 # 🌐 نظام التوجيه
 # ========================
 ROOT_URLCONF = 'nnn.urls'
-
 
 # ========================
 # 🎨 إعدادات القوالب
@@ -94,7 +96,6 @@ TEMPLATES = [
 # ========================
 WSGI_APPLICATION = 'nnn.wsgi.application'
 
-
 # ========================
 # 💾 قاعدة البيانات
 # ========================
@@ -104,7 +105,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # ========================
 # 🔐 التحقق من كلمات المرور
@@ -116,7 +116,6 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-
 # ========================
 # 🌍 اللغة والمنطقة الزمنية
 # ========================
@@ -126,14 +125,12 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-
 # ========================
 # 🖼️ الملفات الثابتة
 # ========================
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-
 
 # ========================
 # ☁️ إعدادات Cloudinary
@@ -144,8 +141,20 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
 }
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+STORAGES = {
+    'default': {
+        'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage',
+    },
+    'staticfiles': {
+        'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage',
+    },
+}
 
+# ========================
+# 📦 إعدادات Media (للصور القديمة فقط)
+# ========================
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # ========================
 # الإعداد الافتراضي للمفاتيح

@@ -1,58 +1,121 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>المنتجات | مكتبة النخبة</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
+    <title>📚 جميع المنتجات | مكتبة النخبة</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
+
+    <style>
+        body {
+            background-color: #0b0f19;
+            color: #eee;
+        }
+
+        h2 {
+            color: #ffb347;
+            text-shadow: 0 0 12px rgba(255, 180, 70, 0.6);
+            font-size: 34px;
+        }
+
+        .card {
+            background-color: #1e2a39;
+            border-radius: 18px;
+            overflow: hidden;
+            border: none;
+            transition: transform .35s ease, box-shadow .35s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 28px rgba(255, 180, 70, 0.35);
+        }
+
+        .product-image {
+            height: 300px; /* ✅ تكبير الصورة أكثر */
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .card-title {
+            font-size: 14px; /* ✅ تصغير اسم الكتاب أكثر */
+            margin: 6px 0;
+        }
+
+        .price {
+            font-size: 13px; /* ✅ تصغير السعر */
+            font-weight: 600;
+            color: #ffdd9c;
+            margin: 4px 0;
+        }
+
+        .btn-product {
+            font-size: 13px; /* ✅ تصغير الزر تناسباً */
+            font-weight: bold;
+            border-radius: 10px;
+            padding: 6px 0;
+        }
+
+        .no-img {
+            height: 300px;
+            background: linear-gradient(135deg, #444, #222);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            color: #bbb;
+        }
+    </style>
 </head>
 
-<body class="bg-dark text-light">
+<body>
 
     {% include 'header.html' %}
 
-    <div class="container mt-5">
-        <h2 class="text-warning text-center mb-4">📚 جميع المنتجات</h2>
+    <div class="container py-5">
 
-        <div class="row">
+        <h2 class="text-center mb-5">📚 جميع المنتجات</h2>
+
+        <div class="row g-4">
+
             {% for product in products %}
-            <div class="col-md-3 mb-4">
-                <div class="card bg-secondary text-light shadow h-100">
+            <div class="col-sm-6 col-md-4 col-lg-3">
 
-                    <!-- ✅ عرض صورة المنتج -->
+                <div class="card h-100">
+
                     {% if product.image %}
-                    <img src="{{ product.image.url }}" class="card-img-top" 
-                         style="height:200px; width:100%; object-fit:cover;">
+                    <img src="{{ product.image.url }}" class="product-image" alt="{{ product.name }}">
                     {% else %}
-                    <div class="bg-dark d-flex justify-content-center align-items-center"
-                         style="height:200px;">
-                        <span class="text-muted">لا توجد صورة</span>
-                    </div>
+                    <div class="no-img">لا توجد صورة</div>
                     {% endif %}
 
-                    <div class="card-body text-center">
-                        <h5 class="card-title text-warning">{{ product.name }}</h5>
+                    <div class="card-body text-center p-2">
+                        <h5 class="card-title text-warning fw-semibold">
+                            {{ product.name }}
+                        </h5>
 
-                        <p class="card-text" style="font-size:14px;">
-                            {{ product.description|truncatewords:10 }}
-                        </p>
+                        <p class="price">💰 {{ product.price }} ريال</p>
 
-                        <p class="card-text fw-bold">
-                            💰 {{ product.price }} ريال
-                        </p>
-
-                        <a href="{% url 'product_detail' product.id %}" class="btn btn-warning w-100">
-                            تفاصيل المنتج 📄
+                        <a href="{% url 'product_detail' product.id %}"
+                            class="btn btn-warning btn-product w-100 mt-1">
+                            📄 تفاصيل المنتج
                         </a>
-
                     </div>
+
                 </div>
+
             </div>
             {% empty %}
-            <p class="text-center text-info">لا توجد منتجات حالياً</p>
+                <p class="text-center text-info fs-4">🛒 لا توجد منتجات حالياً</p>
             {% endfor %}
-        </div>
 
+        </div>
     </div>
+
+    {% include 'footer.html' %}
 
 </body>
 </html>
